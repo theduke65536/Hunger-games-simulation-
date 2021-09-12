@@ -3,12 +3,13 @@ from string import ascii_uppercase
 
 
 class CreateNewNpc:
-    def __init__(self, len_x, len_y, npc_view_range, npc_count, default_strength):
+    def __init__(self, len_x, len_y, npc_view_range, npc_count, default_strength, npc_names_list):
         self.len_x = len_x
         self.len_y = len_y
         self.npc_view_range = npc_view_range
         self.npc_count = npc_count
         self.default_strength = default_strength
+        self.npc_names_list = npc_names_list
 
     def create_new(self, npc_count: int):
         npc_name_index = 0
@@ -31,16 +32,19 @@ class CreateNewNpc:
 
         return npc_details
 
-    # Naming is A - Z, A2 - Z2, A3 - Z3 and so on
+    # Default naming is A - Z, A2 - Z2, A3 - Z3 and so on
 
-    @staticmethod
-    def make_name(npc_name_index):
-        try:
-            npc_name = ascii_uppercase[npc_name_index]
-        except IndexError:
-            alphabet_iterations = npc_name_index // len(ascii_uppercase) + 1
-            remainder = npc_name_index % len(ascii_uppercase)
-            npc_name = ascii_uppercase[remainder] + str(alphabet_iterations)
+    def make_name(self, npc_name_index):
+
+        if not self.npc_names_list:
+            try:
+                npc_name = ascii_uppercase[npc_name_index]
+            except IndexError:
+                alphabet_iterations = npc_name_index // len(ascii_uppercase) + 1
+                remainder = npc_name_index % len(ascii_uppercase)
+                npc_name = ascii_uppercase[remainder] + str(alphabet_iterations)
+        else:
+            npc_name = self.npc_names_list[npc_name_index]
 
         return npc_name
 

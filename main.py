@@ -3,7 +3,6 @@ from npc import Fight, CreateNewNpc
 from random import randint, sample
 from time import sleep
 from logger import logger
-from os import system
 filterwarnings('ignore')
 
 # You can change these six constants to whatever you want,
@@ -13,12 +12,45 @@ WAIT_TIME = 0  # time between npc fights
 LEN_X = 50  # length of the x coordinate of the map
 LEN_Y = 50  # length of the y coordinate of the map
 NPC_VIEW_RANGE = 15  # how far an npc has to be to another npc for a fight to begin
-NPC_COUNT = 100  # the amount of npcs
+NPC_COUNT = 3  # the amount of npcs
 DEFAULT_STRENGTH = 5  # the starting strength of every npc
 MAX_MOVEMENT_RADIUS = 5  # the highest amount of squares an npc can move
 WIN_EXPONENT = 1.3  # how high of a chance an npc has of winning depending on strength (strength^win_exponent)
 STRENGTH_GAIN_DIVISOR = 1.3  # the divisor of how much strength the winning npc will gain from the loser npc
-AUTOLOG = True  # automatically logs the details after a game
+OVERIDE_NPC_NAMES = True  # True for player selected names, and false for automated names like npc A and npc U3
+
+
+def log_prompt():
+    while True:
+        logbool = input("Log details? (y for yes, n for no) ").lower()
+        if logbool == 'y':
+            logger(permanent_details, winner)
+            print('Details logged')
+            break
+        elif logbool == 'n':
+            print('Details not logged')
+            break
+
+
+def npc_player_name_choice():
+    denominator = ','
+
+    while True:
+        npc_names = input(f'Give {NPC_COUNT} names for npcs seperated by {denominator} \n> ')
+        npc_names_list = npc_names.split(denominator)
+
+        if len(npc_names_list) == NPC_COUNT:
+            break
+        else:
+            print(f"\nThat's not {NPC_COUNT} names!")
+
+    return npc_names_list
+
+
+if OVERIDE_NPC_NAMES:
+    NPC_NAMES_LIST = npc_player_name_choice()
+else:
+    NPC_NAMES_LIST = False
 
 npc = CreateNewNpc(
     len_x=LEN_X,
@@ -26,6 +58,9 @@ npc = CreateNewNpc(
     npc_view_range=NPC_VIEW_RANGE,
     npc_count=NPC_COUNT,
     default_strength=DEFAULT_STRENGTH,
+    npc_names_list=NPC_NAMES_LIST
+
+
 )
 fight = Fight(
     win_exponent=WIN_EXPONENT,
@@ -38,7 +73,7 @@ permanent_details = npc_details.copy()
 npcs_alive = len(npc_details)
 print_search = True
 
-# This mess finds all NPCs within distance of variable npc view range
+# This finds all NPCs within distance of variable npc view range
 while npcs_alive != 1:
 
     # Chooses a random npc
@@ -112,16 +147,5 @@ try:
 except:
     exit("There can't be just 1 npc!")
 
-if not AUTOLOG:
-    logbool = input("Log details? ").lower()
-    if logbool == 'yes':
-        logger(permanent_details, winner)
-        print('Details logged')
-
-    else:
-        print('Details not logged')
-else:
-    logger(permanent_details, winner)
-
-input()
+log_prompt()
 

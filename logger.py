@@ -11,7 +11,6 @@ def logger(details: dict, winner):
     for npc in details.items():
         npc = str(npc)
 
-
         with open(file, 'a') as _file:
 
 
@@ -24,10 +23,7 @@ def logger(details: dict, winner):
                 index = currentnpc.index(",")
                 currentnpc = currentnpc[0:index-1]
 
-            if currentnpc == winner:
-                _file.write(f'WINNER: {npc}\n')
-            else:
-                _file.write(f'{npc}\n')
+            _file.write(f'{npc}\n')
 
 
 def logNamer():
