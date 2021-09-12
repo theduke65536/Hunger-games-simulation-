@@ -12,12 +12,12 @@ WAIT_TIME = 0  # time between npc fights
 LEN_X = 50  # length of the x coordinate of the map
 LEN_Y = 50  # length of the y coordinate of the map
 NPC_VIEW_RANGE = 15  # how far an npc has to be to another npc for a fight to begin
-NPC_COUNT = 3  # the amount of npcs
+NPC_COUNT = 30  # the amount of npcs
 DEFAULT_STRENGTH = 5  # the starting strength of every npc
 MAX_MOVEMENT_RADIUS = 5  # the highest amount of squares an npc can move
 WIN_EXPONENT = 1.3  # how high of a chance an npc has of winning depending on strength (strength^win_exponent)
 STRENGTH_GAIN_DIVISOR = 1.3  # the divisor of how much strength the winning npc will gain from the loser npc
-OVERIDE_NPC_NAMES = True  # True for player selected names, and false for automated names like npc A and npc U3
+OVERIDE_NPC_NAMES = False  # True for player selected names, and false for automated names like npc A and npc U3
 
 
 def log_prompt():
